@@ -1,0 +1,8 @@
+{
+  "name": "Remove desktop from overview",
+  "description": "removes the desktop from activities overview background",
+  "uuid": "remove-desktop-from-overview@github.freder",
+  "shell-version": [
+    "40"
+  ]
+}
