@@ -1,5 +1,17 @@
-#overview/*Group*/ {
-	/* TODO: remove this */
+#overviewGroup {
+	/* TODO: remove this, set elsewhere */
 	/* bg color can probably already be set elsewhere */
-	background-color: gray;
+	background-color: rgb(70, 70, 70);
+}
+
+
+.window-picker {
+	/* Space between window thumbnails */
+	/* spacing: $window_picker_spacing; */
+	spacing: 34px;
+}
+
+
+.add-outline {
+	outline: solid 4px blue;
 }
