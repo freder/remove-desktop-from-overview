@@ -40,12 +40,12 @@ class Extension {
 				const icon = children[2];
 				// const closeButton = children[3];
 
-				// TODO: caption z-index (over icon?)
-				caption.visible = true;
+				// caption.visible = true;
+				caption.show();
 				caption.translation_y = -10;
 				icon.translation_y = -5;
 
-				// TODO: override https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/windowPreview.js#L301
+				// override https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/windowPreview.js#L301
 				child.showOverlay = (animate) => {
 					if (!child._overlayEnabled)
 						return;
