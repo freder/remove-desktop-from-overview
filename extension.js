@@ -2,6 +2,8 @@ const Main = imports.ui.main;
 const { overview } = Main;
 const { Clutter/* , St */ } = imports.gi;
 
+const { Workspace } = imports.ui.workspace;
+const isOverviewWindow = Workspace.prototype._isOverviewWindow;
 
 
 class Extension {
@@ -44,7 +46,6 @@ class Extension {
 				icon.translation_y = -5;
 
 				// TODO: override https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/windowPreview.js#L301
-
 				child.showOverlay = (animate) => {
 					if (!child._overlayEnabled)
 						return;
@@ -164,6 +165,15 @@ class Extension {
 		this.handleHiddenId = Main.overview.connect('hidden', this.handleHidden);
 		this.handleShowingId = Main.overview.connect('showing', this.handleShowing);
 		// this.handleShownId = Main.overview.connect('shown', this.handleShown);
+
+		// exclude certain applications
+		Workspace.prototype._isOverviewWindow = (win) => {
+			// global.log(win.wm_class);
+			if (win.wm_class === 'copyq') {
+				return false;
+			}
+			return isOverviewWindow(win);
+		};
     }
 
     disable() {
@@ -171,6 +181,8 @@ class Extension {
 		Main.overview.disconnect(this.handleHiddenId);
 		Main.overview.disconnect(this.handleShowingId);
 		// Main.overview.disconnect(this.handleShownId);
+
+		Workspace.prototype._isOverviewWindow = isOverviewWindow;
     }
 }
 
