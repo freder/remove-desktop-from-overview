@@ -51,7 +51,7 @@ class Extension {
 				// - disable scale effect on hover
 				// - instead: show outline
 				// - make sure caption is always shown
-				const WINDOW_OVERLAY_FADE_TIME = 200;
+				const WINDOW_OVERLAY_FADE_TIME = 70; // 200
 				// const WINDOW_ACTIVE_SIZE_INC = 5;
 				child.showOverlay = (animate) => {
 					if (!child._overlayEnabled)
