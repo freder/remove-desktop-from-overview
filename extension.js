@@ -2,13 +2,18 @@ const Main = imports.ui.main;
 const { overview } = Main;
 const { Clutter/* , St */ } = imports.gi;
 
+const Overview = imports.ui.overview;
 const { Workspace } = imports.ui.workspace;
 const isOverviewWindow = Workspace.prototype._isOverviewWindow;
 
 
 class Extension {
     constructor() {
-		//
+		// just make it linear. the combination of multiple non-linear easing
+		// functions results in wonky animations
+		Clutter.AnimationMode.EASE_OUT_QUAD = Clutter.AnimationMode.LINEAR;
+		// make it slightly faster
+		Overview.ANIMATION_TIME = 200;
     }
 
 	handleShowing() {
