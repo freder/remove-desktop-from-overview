@@ -30,11 +30,30 @@ class Extension {
 			workspaceElem.get_children()[0]
 		);
 
-		// customize individual window previews
+		let focusWinTitle = null;
+		if (global.display.focus_window) {
+			focusWinTitle = global.display.focus_window.title;
+		}
+		// customize individual window previews:
 		workspaceElem
 			.get_children()[0]
-			.get_children().forEach((child) => {
+			.get_children().forEach((child, i) => {
 				// child = https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/windowPreview.js
+
+				// in order for arrow key selection to work, a window needs to be
+				// initially selected, it seems. if the mouse pointer happens to be
+				// on a window preview when the overview opens that is the case.
+				// if not, one has to move the mouse (which obviously is not what
+				// we want in this situation).
+				// this simply selects the active (fallback: first) window, so that
+				// we have initial focus.
+				if (focusWinTitle) {
+					if (child.metaWindow.title === focusWinTitle) {
+						global.stage.set_key_focus(child);
+					}
+				} else if (i === 0) {
+					global.stage.set_key_focus(child);
+				}
 
 				const children = child.get_children();
 				const caption = children[1];
