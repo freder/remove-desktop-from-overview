@@ -30,14 +30,23 @@ class Extension {
 			workspaceElem.get_children()[0]
 		);
 
+		const previews = workspaceElem
+			.get_children()[0]
+			.get_children();
+
 		let focusWinTitle = null;
 		if (global.display.focus_window) {
-			focusWinTitle = global.display.focus_window.title;
+			const previewTitles = previews.map((child) => {
+				return child.metaWindow.title;
+			});
+			const title = global.display.focus_window.title;
+			// handles the case when active window is excluded from overview
+			if (previewTitles.includes(title)) {
+				focusWinTitle = title;
+			}
 		}
 		// customize individual window previews:
-		workspaceElem
-			.get_children()[0]
-			.get_children().forEach((child, i) => {
+		previews.forEach((child, i) => {
 				// child = https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/windowPreview.js
 
 				// in order for arrow key selection to work, a window needs to be
@@ -52,6 +61,7 @@ class Extension {
 						global.stage.set_key_focus(child);
 					}
 				} else if (i === 0) {
+					// TODO: get the top-most window instead of the first one
 					global.stage.set_key_focus(child);
 				}
 
