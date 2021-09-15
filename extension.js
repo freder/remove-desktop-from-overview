@@ -18,39 +18,41 @@ class Extension {
 
 	handleShowing() {
 		// remove desktop
-		const asdf = Main.layoutManager.overviewGroup
+		const workspaceElem = Main.layoutManager.overviewGroup
 			.get_children()[1]
 			.get_children()[0]
 			.get_children()[5]
 			.get_children()[0]
 			.get_children()[0];
-
-		// global.log(asdf);
+		// global.log(workspaceElem);
 		// [0x555a7bca5e30 Gjs_ui_workspace_Workspace.window-picker:insensitive ("Calendar")]
-
-		asdf.remove_child(
-			asdf.get_children()[0]
+		workspaceElem.remove_child(
+			workspaceElem.get_children()[0]
 		);
 
-		const WINDOW_OVERLAY_FADE_TIME = 200;
-		// const WINDOW_ACTIVE_SIZE_INC = 5;
-		const qwer = asdf
+		// customize individual window previews
+		workspaceElem
 			.get_children()[0]
 			.get_children().forEach((child) => {
-				// https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/windowPreview.js
-				// global.log(child);
+				// child = https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/windowPreview.js
 
 				const children = child.get_children();
 				const caption = children[1];
 				const icon = children[2];
 				// const closeButton = children[3];
 
-				// caption.visible = true;
 				caption.show();
+
+				// modify position slightly
 				caption.translation_y = -10;
 				icon.translation_y = -5;
 
-				// override https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/windowPreview.js#L301
+				// method overrides:
+				// - disable scale effect on hover
+				// - instead: show outline
+				// - make sure caption is always shown
+				const WINDOW_OVERLAY_FADE_TIME = 200;
+				// const WINDOW_ACTIVE_SIZE_INC = 5;
 				child.showOverlay = (animate) => {
 					if (!child._overlayEnabled)
 						return;
@@ -166,15 +168,15 @@ class Extension {
 	}
 
     enable() {
-		// this.handleHidingId = Main.overview.connect('hiding', this.handleHiding);
+		this.handleHidingId = Main.overview.connect('hiding', this.handleHiding);
 		this.handleHiddenId = Main.overview.connect('hidden', this.handleHidden);
 		this.handleShowingId = Main.overview.connect('showing', this.handleShowing);
-		// this.handleShownId = Main.overview.connect('shown', this.handleShown);
+		this.handleShownId = Main.overview.connect('shown', this.handleShown);
 
-		// exclude certain applications
+		// exclude certain applications from overview:
 		Workspace.prototype._isOverviewWindow = (win) => {
 			// global.log(win.wm_class);
-			if (win.wm_class === 'copyq') {
+			if (['copyq'].includes(win.wm_class)) {
 				return false;
 			}
 			return isOverviewWindow(win);
@@ -182,10 +184,10 @@ class Extension {
     }
 
     disable() {
-		// Main.overview.disconnect(this.handleHidingId);
+		Main.overview.disconnect(this.handleHidingId);
 		Main.overview.disconnect(this.handleHiddenId);
 		Main.overview.disconnect(this.handleShowingId);
-		// Main.overview.disconnect(this.handleShownId);
+		Main.overview.disconnect(this.handleShownId);
 
 		Workspace.prototype._isOverviewWindow = isOverviewWindow;
     }
