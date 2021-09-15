@@ -1,6 +1,6 @@
 const Main = imports.ui.main;
 const { overview } = Main;
-const { Clutter/* , St */ } = imports.gi;
+const { Clutter } = imports.gi;
 
 const Overview = imports.ui.overview;
 const { Workspace } = imports.ui.workspace;
@@ -32,12 +32,12 @@ class Extension {
 			.get_children()[5]
 			.get_children()[0]
 			.get_children()[0];
-		// global.log(workspaceElem);
-		// [0x555a7bca5e30 Gjs_ui_workspace_Workspace.window-picker:insensitive ("Calendar")]
 		workspaceElem.remove_child(
 			workspaceElem.get_children()[0]
 		);
 
+		// get window previews
+		// https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/windowPreview.js
 		const previews = workspaceElem
 			.get_children()[0]
 			.get_children();
@@ -55,8 +55,6 @@ class Extension {
 		}
 		// customize individual window previews:
 		previews.forEach((child, i) => {
-				// child = https://gitlab.gnome.org/GNOME/gnome-shell/-/blob/main/js/ui/windowPreview.js
-
 				// in order for arrow key selection to work, a window needs to be
 				// initially selected, it seems. if the mouse pointer happens to be
 				// on a window preview when the overview opens that is the case.
@@ -212,7 +210,6 @@ class Extension {
 
 		// exclude certain applications from overview:
 		Workspace.prototype._isOverviewWindow = (win) => {
-			// global.log(win.wm_class);
 			if (['copyq'].includes(win.wm_class)) {
 				return false;
 			}
