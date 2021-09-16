@@ -1,6 +1,6 @@
 const Main = imports.ui.main;
 const { overview } = Main;
-const { Clutter } = imports.gi;
+const { Clutter, Shell } = imports.gi;
 
 const Overview = imports.ui.overview;
 const { Workspace } = imports.ui.workspace;
@@ -45,35 +45,44 @@ class Extension {
 			.get_children()[0]
 			.get_children();
 
+		// in order for arrow key selection to work, a window needs to be
+		// initially selected, it seems. if the mouse pointer happens to be
+		// on a window preview when the overview opens that is the case.
+		// if not, one has to move the mouse (which obviously is not what
+		// we want in this situation).
+		// this simply selects the active (fallback: last used) window, so
+		// that we have initial focus.
 		let focusWinTitle = null;
 		if (global.display.focus_window) {
-			const previewTitles = previews.map((child) => {
-				return child.metaWindow.title;
-			});
+			const previewTitles = previews.map(
+				(child) => child.metaWindow.title
+			);
 			const title = global.display.focus_window.title;
 			// handles the case when active window is excluded from overview
 			if (previewTitles.includes(title)) {
 				focusWinTitle = title;
 			}
 		}
+		if (focusWinTitle) {
+			if (child.metaWindow.title === focusWinTitle) {
+				global.stage.set_key_focus(child);
+			}
+		} else {
+			// get the last used (= top-most?) window
+			const apps = Shell.AppSystem.get_default().get_running();
+			const firstWindows = apps.map(app => app.get_windows()[0])
+				.filter((win) => !wmClassBlacklist.includes(win.wm_class))
+			const w = firstWindows[0];
+			for (let ii = 0; ii < previews.length; ii++) {
+				const p = previews[ii];
+				if (p.metaWindow.title === w.title) {
+					global.stage.set_key_focus(p);
+				}
+			}
+		}
+
 		// customize individual window previews:
 		previews.forEach((child, i) => {
-				// in order for arrow key selection to work, a window needs to be
-				// initially selected, it seems. if the mouse pointer happens to be
-				// on a window preview when the overview opens that is the case.
-				// if not, one has to move the mouse (which obviously is not what
-				// we want in this situation).
-				// this simply selects the active (fallback: first) window, so that
-				// we have initial focus.
-				if (focusWinTitle) {
-					if (child.metaWindow.title === focusWinTitle) {
-						global.stage.set_key_focus(child);
-					}
-				} else if (i === 0) {
-					// TODO: get the top-most window instead of the first one
-					global.stage.set_key_focus(child);
-				}
-
 				const children = child.get_children();
 				const caption = children[1];
 				const icon = children[2];
