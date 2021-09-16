@@ -7,6 +7,9 @@ const { Workspace } = imports.ui.workspace;
 const isOverviewWindow = Workspace.prototype._isOverviewWindow;
 
 
+const wmClassBlacklist = ['copyq'];
+
+
 // TODO: doesn't seem to work as expected
 function animationOverrides() {
 	// just make it linear. the combination of multiple non-linear easing
@@ -210,7 +213,7 @@ class Extension {
 
 		// exclude certain applications from overview:
 		Workspace.prototype._isOverviewWindow = (win) => {
-			if (['copyq'].includes(win.wm_class)) {
+			if (wmClassBlacklist.includes(win.wm_class)) {
 				return false;
 			}
 			return isOverviewWindow(win);
