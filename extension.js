@@ -26,7 +26,7 @@ class Extension {
 	}
 
 	handleShowing() {
-		animationOverrides()
+		animationOverrides();
 
 		// remove desktop
 		const workspaceElem = Main.layoutManager.overviewGroup
@@ -71,7 +71,7 @@ class Extension {
 			// get the last used (= top-most?) window
 			const apps = Shell.AppSystem.get_default().get_running();
 			const firstWindows = apps.map(app => app.get_windows()[0])
-				.filter((win) => !wmClassBlacklist.includes(win.wm_class))
+				.filter((win) => !wmClassBlacklist.includes(win.wm_class));
 			const w = firstWindows[0];
 			for (let ii = 0; ii < previews.length; ii++) {
 				const p = previews[ii];
@@ -202,7 +202,7 @@ class Extension {
 	}
 
 	handleHiding() {
-		animationOverrides()
+		animationOverrides();
 	}
 
 	handleHidden() {
