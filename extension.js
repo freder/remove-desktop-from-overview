@@ -64,8 +64,11 @@ class Extension {
 			}
 		}
 		if (focusWinTitle) {
-			if (child.metaWindow.title === focusWinTitle) {
-				global.stage.set_key_focus(child);
+			for (let j = 0; j < previews.length; j++) {
+				const child = previews[j];
+				if (child.metaWindow.title === focusWinTitle) {
+					global.stage.set_key_focus(child);
+				}
 			}
 		} else {
 			// get the last used (= top-most?) window
