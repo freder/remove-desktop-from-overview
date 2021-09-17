@@ -1,0 +1,9 @@
+{
+  "name": "remove-desktop-from-overview",
+  "version": "0.0.0",
+  "main": "extension.js",
+  "scripts": {},
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  }
+}
