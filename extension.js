@@ -1,5 +1,5 @@
 const Main = imports.ui.main;
-const { overview } = Main;
+// const { overview } = Main;
 const { Clutter, Shell } = imports.gi;
 
 const Overview = imports.ui.overview;
@@ -245,6 +245,7 @@ class Extension {
 	}
 }
 
+// eslint-disable-next-line no-unused-vars
 function init() {
 	return new Extension();
 }
