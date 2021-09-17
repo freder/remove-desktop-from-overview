@@ -21,9 +21,9 @@ function animationOverrides() {
 
 
 class Extension {
-    constructor() {
+	constructor() {
 		//
-    }
+	}
 
 	handleShowing() {
 		animationOverrides()
@@ -214,7 +214,7 @@ class Extension {
 		Main.overview.dash.set_opacity(255);
 	}
 
-    enable() {
+	enable() {
 		this.handleHidingId = Main.overview.connect('hiding', this.handleHiding);
 		this.handleHiddenId = Main.overview.connect('hidden', this.handleHidden);
 		this.handleShowingId = Main.overview.connect('showing', this.handleShowing);
@@ -227,18 +227,18 @@ class Extension {
 			}
 			return isOverviewWindow(win);
 		};
-    }
+	}
 
-    disable() {
+	disable() {
 		Main.overview.disconnect(this.handleHidingId);
 		Main.overview.disconnect(this.handleHiddenId);
 		Main.overview.disconnect(this.handleShowingId);
 		Main.overview.disconnect(this.handleShownId);
 
 		Workspace.prototype._isOverviewWindow = isOverviewWindow;
-    }
+	}
 }
 
 function init() {
-    return new Extension();
+	return new Extension();
 }
