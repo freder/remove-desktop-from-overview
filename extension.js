@@ -73,11 +73,14 @@ class Extension {
 		} else {
 			// get the last used (= top-most?) window
 			const apps = Shell.AppSystem.get_default().get_running();
-			const firstWindows = apps.map(app => app.get_windows()[0])
-				.filter((win) => !wmClassBlacklist.includes(win.wm_class));
+			const firstWindows = apps.map(
+				(app) => app.get_windows()[0]
+			).filter(
+				(win) => !wmClassBlacklist.includes(win.wm_class)
+			);
 			const w = firstWindows[0];
-			for (let ii = 0; ii < previews.length; ii++) {
-				const p = previews[ii];
+			for (let j = 0; j < previews.length; j++) {
+				const p = previews[j];
 				if (p.metaWindow.title === w.title) {
 					global.stage.set_key_focus(p);
 				}
