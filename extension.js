@@ -12,11 +12,11 @@ const wmClassBlacklist = ['copyq'];
 
 // TODO: doesn't seem to work as expected
 function animationOverrides() {
-	// just make it linear. the combination of multiple non-linear easing
-	// functions results in wonky animations
-	Clutter.AnimationMode.EASE_OUT_QUAD = Clutter.AnimationMode.LINEAR;
-	// make it slightly faster
-	Overview.ANIMATION_TIME = 200;
+	// // just make it linear. the combination of multiple non-linear easing
+	// // functions results in wonky animations
+	// Clutter.AnimationMode.EASE_OUT_QUAD = Clutter.AnimationMode.LINEAR;
+	// // make it slightly faster
+	// Overview.ANIMATION_TIME = 200;
 }
 
 
