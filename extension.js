@@ -30,7 +30,7 @@ class Extension {
 
 		// remove desktop
 		const workspaceElem = Main.layoutManager.overviewGroup
-			.get_children()[1]
+			.get_children()[0]
 			.get_children()[0]
 			.get_children()[5]
 			.get_children()[0]
