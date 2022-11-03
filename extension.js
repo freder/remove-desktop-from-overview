@@ -2,7 +2,7 @@ const Main = imports.ui.main;
 // const { overview } = Main;
 const { Clutter, Shell } = imports.gi;
 
-const Overview = imports.ui.overview;
+// const Overview = imports.ui.overview;
 const { Workspace } = imports.ui.workspace;
 const isOverviewWindow = Workspace.prototype._isOverviewWindow;
 
