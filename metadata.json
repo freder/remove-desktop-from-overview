@@ -3,6 +3,6 @@
   "description": "removes the desktop from activities overview background",
   "uuid": "remove-desktop-from-overview@github.freder",
   "shell-version": [
-    "43"
+    "44", "43"
   ]
 }
